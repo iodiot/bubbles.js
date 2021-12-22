@@ -47,10 +47,10 @@ export class GpuCompute extends GPUComputationRenderer {
         for ( let k = 0, kl = theArray.length; k < kl; k += 4 ) {
             const pos = Utils.getRandomPointInCircle(1);
 
-            theArray[ k + 0 ] = pos.x;
-            theArray[ k + 1 ] = pos.y;
-            theArray[ k + 2 ] = 0;
-            theArray[ k + 3 ] = 1;
+            theArray[k + 0] = pos.x;
+            theArray[k + 1] = pos.y;
+            theArray[k + 2] = 0;
+            theArray[k + 3] = 1;
         }
     }
 
@@ -58,10 +58,10 @@ export class GpuCompute extends GPUComputationRenderer {
         const theArray = texture.image.data;
 
         for ( let k = 0, kl = theArray.length; k < kl; k += 4 ) {
-            theArray[ k + 0 ] = Utils.getRandomFloat(-1, 1);
-            theArray[ k + 1 ] = Utils.getRandomFloat(-1, 1);
-            theArray[ k + 2 ] = 0;
-            theArray[ k + 3 ] = 0;
+            theArray[k + 0] = Utils.getRandomFloat(-1, 1);
+            theArray[k + 1] = Utils.getRandomFloat(-1, 1);
+            theArray[k + 2] = 0;
+            theArray[k + 3] = 0;
         }
     }
 

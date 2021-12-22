@@ -121,14 +121,11 @@ function render() {
 
 	gpuCompute.update(time);
 	
-
-
+	// Compute positions/velocities in shaders
 	gpuCompute.compute();
 
+	// Use results as textures to update bubbles in shaders
 	bubbles.update(time, gpuCompute.getPositionTexture(), gpuCompute.getVelocityTexture());
-
-	// mesh.rotation.x = time * 0.2;
-	// mesh.rotation.y = time * 0.4;
 
 	renderer.render(scene, camera);
 }
