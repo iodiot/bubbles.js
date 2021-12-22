@@ -6,7 +6,7 @@ export class GpuCompute extends GPUComputationRenderer {
     constructor(width, renderer, positionFrag, velocityFrag) {
         super(width, width, renderer);
 
-        console.log("width = " + width);
+        this.renderer = renderer;
 
         const dtPosition = this.createTexture();
         const dtVelocity = this.createTexture();
@@ -23,11 +23,12 @@ export class GpuCompute extends GPUComputationRenderer {
         this.positionUniforms = this.positionVariable.material.uniforms;
         this.velocityUniforms = this.velocityVariable.material.uniforms;
 
-        this.positionUniforms[ "uTime" ] = { value: 0.0 };
-        this.velocityUniforms[ "uTime" ] = { value: 1.0 };
-        this.positionUniforms[ "uMouse" ] = { value: new THREE.Vector2(0, 0) };
-        this.velocityUniforms[ "uMouse" ] = { value: new THREE.Vector2(0, 0) };
-
+        this.positionUniforms["uTime"] = { value: 0.0 };
+        this.velocityUniforms["uTime"] = { value: 1.0 };
+        this.positionUniforms["uMouse"] = { value: new THREE.Vector2(0, 0) };
+        this.velocityUniforms["uMouse"] = { value: new THREE.Vector2(0, 0) };
+        this.velocityUniforms["uShock"] = { value: new THREE.Vector3(0, 0, 0) };
+        this.velocityUniforms["uAspect"] = { value: 0.0 };
 
         this.velocityVariable.wrapS = THREE.RepeatWrapping;
         this.velocityVariable.wrapT = THREE.RepeatWrapping;
@@ -39,9 +40,11 @@ export class GpuCompute extends GPUComputationRenderer {
         if ( error !== null ) {
             console.error( error );
         }
+
+        this.shock = new THREE.Vector3(0, 0, 0);
     }
 
-    fillPositionTexture( texture ) {
+    fillPositionTexture(texture) {
         const theArray = texture.image.data;
 
         for ( let k = 0, kl = theArray.length; k < kl; k += 4 ) {
@@ -73,9 +76,19 @@ export class GpuCompute extends GPUComputationRenderer {
         return this.getCurrentRenderTarget(this.velocityVariable).texture;
     }
 
-    update(time) {
+    update(time, aspect) {
         this.positionUniforms["uTime"].value = time;
         this.velocityUniforms["uTime"].value = time;
+
+        this.velocityUniforms["uShock"].value = this.shock;
+
+        this.velocityUniforms["uAspect"].value = aspect;
+
+        if (this.shock.z > 1) {
+            this.shock = new THREE.Vector3(this.shock.x, this.shock.y, this.shock.z - 1);
+        } else {
+            this.shock = new THREE.Vector3(0, 0, 0);
+        }
     }
 
     onMouseMove(mouse) {
@@ -84,4 +97,8 @@ export class GpuCompute extends GPUComputationRenderer {
         this.positionUniforms["uMouse"].value = pos;
         this.velocityUniforms["uMouse"].value = pos;
 	}
+
+    onMouseClick(mouse) {
+        this.shock = new THREE.Vector3(mouse.x, mouse.y, 3);
+    }
 }

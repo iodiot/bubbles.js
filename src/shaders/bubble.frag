@@ -8,10 +8,10 @@ varying vec2 vUv;
 varying vec3 vColor;
 
 void main() {
-    vec4 diffuseColor = texture2D(uMap, vUv);
+    vec4 texColor = texture2D(uMap, vUv);
 
-	gl_FragColor = vec4(vColor, diffuseColor.w);
+	gl_FragColor = texColor * vec4(vColor, texColor.w);
 
-    if ( diffuseColor.w < 0.5 ) 
+    if (texColor.w < 0.5) 
         discard;
 }

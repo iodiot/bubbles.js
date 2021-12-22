@@ -49,14 +49,14 @@ export class Bubbles extends THREE.Mesh {
 		geometry.setAttribute("aTranslate", new THREE.InstancedBufferAttribute(new Float32Array(aTranslate), 3));
 
 		// ---
-		let aScale = [];
+		let aRadius = [];
 
 		for (let i = 0; i < instances; ++i) {
-			const scale = Utils.getRandomFloat(0.1, 3);
-			aScale.push(scale);
+			const scale = Utils.getRandomFloat(10, 50);
+			aRadius.push(scale);
 		}
 
-		geometry.setAttribute("aScale", new THREE.InstancedBufferAttribute(new Float32Array(aScale), 1));
+		geometry.setAttribute("aRadius", new THREE.InstancedBufferAttribute(new Float32Array(aRadius), 1));
 
 		// ---
 		const colors = [new THREE.Color("skyblue"), new THREE.Color("red"), new THREE.Color("green"), new THREE.Color("yellow")];

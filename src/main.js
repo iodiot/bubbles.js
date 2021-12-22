@@ -7,11 +7,11 @@ import { Bubbles } from "/src/bubbles.js";
 import { GpuCompute } from "/src/gpu_compute.js";
 
 let params = {
-	bubblesCount: 300,
+	bubblesCount: 100,
 	mouseX: -1,
 	mouseY: -1,
 	debugMessage: "empty",
-	gpuTextureWidth: 32
+	gpuTextureWidth: 64
 };
 
 let shaders = {};
@@ -66,6 +66,7 @@ function init() {
 
 	window.addEventListener("resize", onWindowResize);
 	window.addEventListener("mousemove", onMouseMove, false);
+	document.addEventListener("mouseup", onMouseClick, false);
 
 	createGUI();
 
@@ -120,6 +121,14 @@ function onMouseMove(event) {
 	gpuCompute.onMouseMove(mouse);
 }
 
+function onMouseClick(event) {
+	event.preventDefault();
+	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+	gpuCompute.onMouseClick(mouse);
+}
+
 function animate() {
 	requestAnimationFrame( animate );
 
@@ -130,7 +139,7 @@ function animate() {
 function render() {
 	const time = performance.now() * 0.0005;
 
-	gpuCompute.update(time);
+	gpuCompute.update(time, camera.aspect);
 	
 	// Compute positions/velocities in shaders
 	gpuCompute.compute();
