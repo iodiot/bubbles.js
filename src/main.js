@@ -22,8 +22,8 @@ let camera, scene, renderer;
 
 let mouse = new THREE.Vector2();
 
-let bubbles;
-let gpuCompute;
+let bubbles = null;
+let gpuCompute = null;
 
 loadShaders(shaders);
 
@@ -52,11 +52,7 @@ function init() {
 
 	scene = new THREE.Scene();
 
-	// Bubbles
-	bubbles = new Bubbles(params, shaders["bubbleVert"], shaders["bubbleFrag"], params.gpuTextureWidth);
-	bubbles.init();
-	bubbles.scale.set(500, 500, 500);
-	scene.add(bubbles);
+	initBubbles();
 
 	// GPU Compute
 	gpuCompute = new GpuCompute(params.gpuTextureWidth, renderer, shaders["positionFrag"], shaders["velocityFrag"]);
@@ -76,6 +72,20 @@ function init() {
 	return true;
 }
 
+function initBubbles() {
+	if (bubbles != null) {
+		scene.remove(bubbles);
+		bubbles.dispose();	
+		bubbles = null;
+	}
+
+	// Bubbles
+	bubbles = new Bubbles(params, shaders["bubbleVert"], shaders["bubbleFrag"], params.gpuTextureWidth);
+	bubbles.init();
+	bubbles.scale.set(500, 500, 500);
+	scene.add(bubbles);
+}
+
 function createGUI() {
 	const gui = new GUI({name: "GUI"});
 
@@ -85,8 +95,9 @@ function createGUI() {
 	f1.add(params, "debugMessage").listen();
 
 	let f2 = gui.addFolder("Controls");
-	f2.add(params, "bubblesCount").min(100).max(1000).step(50);
-
+	f2.add(params, "bubblesCount").min(100).max(1000).step(50).onChange(() => {
+		initBubbles();
+	});
 }
 
 function onWindowResize() {
