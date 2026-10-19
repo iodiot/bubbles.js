@@ -1,0 +1,13 @@
+html, body { margin: 0; height: 100%; overflow: hidden; background: #05070a; }
+canvas { display: block; touch-action: none; }
+#hud {
+  position: fixed; left: 24px; bottom: 20px; color: #fff; pointer-events: none;
+  font: 13px/1.5 ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+}
+#hud h1 { margin: 0 0 2px; font-size: 22px; font-weight: 600; letter-spacing: 0.02em; }
+#hud p { margin: 0; opacity: 0.85; }
+#hud .hint { opacity: 0.6; font-size: 12px; margin-top: 4px; }
+#stats { position: fixed !important; top: 12px !important; left: 12px !important; }
+#error { position: fixed; inset: 40% 0 auto; text-align: center; color: #f88; font: 16px sans-serif; }
+@media (max-width: 640px) { #hud p:not(.hint) { display: none; } }
