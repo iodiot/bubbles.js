@@ -99,7 +99,7 @@ curl-noise flow, thin-film shading, HDR lighting, DOF, bloom and popping.
 - Simplex noise: Ashima Arts / Stefan Gustavson (MIT). Hashes: Dave Hoskins, "Hash without Sine" (MIT).
 - CIE colour-matching fit: Wyman, Sloan & Shirley, *Simple Analytic Approximations to the CIE XYZ
   Color Matching Functions*, JCGT 2013.
-- Curl noise: Bridson, Houriham & Nordenstam, *Curl-Noise for Procedural Fluid Flow*, SIGGRAPH 2007.
+- Curl noise: Bridson, Hourihan & Nordenstam, *Curl-Noise for Procedural Fluid Flow*, SIGGRAPH 2007.
 
 ## License
 
